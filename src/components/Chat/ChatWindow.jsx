@@ -9,7 +9,7 @@ const ChatWindow = ({ chatId }) => {
     const fetchData = async () => {
       try {
         const response = await fetchChatHistory(chatId);
-        setMessages(response.data);
+        setMessages(response.data.chats);
       } catch (error) {
         console.error('Failed to fetch chat history', error);
       }
@@ -21,9 +21,11 @@ const ChatWindow = ({ chatId }) => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     try {
-      await sendMessage(chatId, { text: newMessage, senderId: 1 }); // replace senderId with actual user ID
+      if (!newMessage.trim()) {
+        return;
+      }
+      await sendMessage(chatId, newMessage);
       setNewMessage('');
-      // Refresh chat messages after sending a new message
     } catch (error) {
       console.error('Failed to send message', error);
     }
