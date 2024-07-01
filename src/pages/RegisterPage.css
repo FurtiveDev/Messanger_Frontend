@@ -1,0 +1,17 @@
+
+.register-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 80px); 
+    padding: 20px;
+    box-sizing: border-box;
+}
+  
+  .register-page-title {
+    color: hsl(0, 0%, 0%);
+    font-size: 2rem; /* Размер шрифта */
+    text-align: center; /* Выравнивание по центру */
+  }
+  

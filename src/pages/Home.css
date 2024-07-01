@@ -1,0 +1,16 @@
+.home-container {
+    padding: 5px;
+    border-radius: 0px;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
+    width: 100vw;
+    /*max-width: 500px; можно добавить потом*/
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .home-title {
+    color: #000000;
+    font-size: 24px;
+    margin-bottom: 20x;
+  }
+  
