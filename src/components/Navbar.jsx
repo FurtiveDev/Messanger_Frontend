@@ -24,7 +24,7 @@ const Navbar = () => {
       localStorage.setItem('isAuthenticated', 'false');
       setIsAuthenticated(false);
       // Перенаправляем на страницу /login после успешного logout
-      window.location.href = '/login';
+      window.location.href = '/';
     } catch (error) {
       console.error('Ошибка при выходе из системы:', error);
     }
@@ -33,7 +33,7 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.navbarContainer}>
-        <Link to="/" className={styles.logoContainer}>
+        <Link to="/home" className={styles.logoContainer}>
           {authState && (
             <>
               <img src={gLogo} alt="G" className={styles.logo} />
@@ -45,7 +45,7 @@ const Navbar = () => {
         
         <div className={styles.navbarLinks}>
           {authState && (
-            <Link to="/" className={styles.navbarLink}>
+            <Link to="/home" className={styles.navbarLink}>
               <img src={homepageIcon} alt="Домашняя страница" className={styles.navbarIcon} />
             </Link>
           )}
@@ -61,7 +61,7 @@ const Navbar = () => {
               </div>
             ) : (
               <>
-                <Link to="/login" className={styles.navbarLink}>Вход</Link>
+                <Link to="/" className={styles.navbarLink}>Вход</Link>
                 <Link to="/register" className={styles.navbarLink}>Регистрация</Link>
               </>
             )}

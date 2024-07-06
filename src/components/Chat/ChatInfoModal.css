@@ -1,0 +1,82 @@
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  
+  h2 {
+    margin-top: 0;
+  }
+  
+  h3, h4 {
+    margin: 10px 0;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+  }
+  
+  .remove-btn {
+    background-color: transparent;
+    color: #ff4d4f;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .remove-btn:hover {
+    color: #ff7875;
+  }
+  
+  .search-results {
+    max-height: 150px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+  }
+  
+  .search-result-item {
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin: 5px 0;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .search-result-item:hover {
+    background-color: #211f1f;
+  }
+  
+  .search-result-item.selected {
+    background-color: #e6f7ff;
+    border-color: #91d5ff;
+  }
+  
+  .add-members-btn {
+    background-color: #000000;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .add-members-btn:disabled {
+    background-color: #000000;
+    cursor: not-allowed;
+  }
+  
+  .add-members-btn:hover:not(:disabled) {
+    background-color: #1a1c1a;
+  }
+  

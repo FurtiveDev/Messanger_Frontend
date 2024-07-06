@@ -1,73 +1,130 @@
 .chat-window {
-    width: 400px;
-    height: 600px;
-    background-color: #0e0e0e;
-    border-radius: 8px;
-    overflow-y: auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #0e0e0e;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
-  
+
 .message-list {
-    flex: 1;
-    overflow-y: auto;
-    margin-bottom: 10px;
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
 }
-  
+
 .message-item {
-    margin-bottom: 10px;
-    position: relative;
+  display: flex;
+  align-items: flex-start; /* выравнивание по верхнему краю */
+  margin-bottom: 10px;
+  position: relative;
 }
-  
+
+.message-item strong {
+  margin-right: 10px;
+  min-width: 80px; /* минимальная ширина для блока с именем */
+  text-align: right;
+  color: #fff;
+}
+
+.message-item-content {
+  flex: 1;
+}
+
 .chat-info {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
-  
+
 .chat-info h3 {
-    margin: 0;
-    font-size: 18px;
-    color: #fff;
+  margin: 0;
+  font-size: 18px;
+  color: #fff;
 }
-  
+
 .message-item-icons {
-    position: absolute;
-    right: 0;
-    top: 0;
-    display: none;
+  position: absolute;
+  right: 10px;
+  top: 0;
+  display: none;
 }
-  
+
 .message-item:hover .message-item-icons {
-    display: block;
+  display: block;
 }
-  
+
 .message-item .message-item-icon {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    margin-left: 5px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-left: 5px;
 }
-  
+
 .message-item .send-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-top: -10px;
+}
+
+.message-item .send-icon:hover {
+  filter: brightness(0.8);
+}
+
+.chat-info button {
+  background-color: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 20px;
+  margin-left: -10px;
+}
+
+
+.send-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px 10px;
+  margin-top: 1px;
+  margin-left: 0px;
+}
+
+.send-button:hover img {
+  filter: brightness(0.8);
+}
+
+.popup {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.popup.show {
+  opacity: 1;
+}
+
+.settings-button {
+  position: absolute;
+  background: none;
+  color: #0e0e0e;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.settings-icon {
     width: 20px;
     height: 20px;
     cursor: pointer;
-}
-  
-.message-item form {
-    display: flex;
-    align-items: center;
-}
-  
-.message-item input[type="text"] {
-    flex: 1;
-    margin-right: 10px;
-}
-  
-.message-item button[type="submit"] {
-    width: 40px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
+    margin-top: -10px;
 }

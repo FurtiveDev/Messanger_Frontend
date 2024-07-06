@@ -1,8 +1,8 @@
 .add-chat-button {
-  position: relative;
-  top: -1vh;
-  right: -48vw;
-  background: url('/home/dev/Рабочий стол/Messanger/my-messenger/src/assets/plus.svg') no-repeat center center;
+  position: absolute;
+  top: 26vh;
+  right:42vh;
+  background: url('../../assets/plus.svg') no-repeat center center;
   background-size: contain;
   width: 40px;
   height: 40px;
@@ -10,27 +10,28 @@
   cursor: pointer;
 }
 
-.chat-list-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-color: #2a2727;
-}
 
 .chat-list-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
   align-items: center;
   width: 80%;
   height: 80%;
-  background-color: #302e2e;
-  overflow-y: auto;
+  max-width: 800px; 
+  background-color: none;
+  overflow-y: auto; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+
+
 .chat-list {
+  overflow-y: auto; 
+  max-height: 20vh;
   width: 100%;
   padding: 20px;
 }
@@ -39,13 +40,16 @@
   padding: 10px;
   border-bottom: 1px solid #1c1919;
   cursor: pointer;
-  background-color: #453f3f;
+  background-color: hsla(245, 50%, 5%, 0.826);
   color: #fff; 
-  transition: background-color 0.3s ease; /* Smooth transition for background color */
+  transition: background-color 0.3s ease;
 }
-
+.chat-list-container{
+  max-width: 100wv;
+  max-height: 1px;
+}
 .chat-item:hover {
-  background-color: #3a3636; /* Adjusted hover color */
+  background-color: #101327;
 }
 
 .chat-info {
@@ -54,9 +58,9 @@
 }
 
 .chat-info img {
-  width: 24px; /* Adjust size as needed */
+  width: 24px;
   height: 24px;
-  margin-right: 10px; /* Space between icon and chat name */
+  margin-right: 10px;
 }
 
 .chat-name {
@@ -89,13 +93,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 3;
 }
 
 .modal-content {
+  width: 50%;
+  height: 60%; 
   background-color: #100f0f;
   padding: 20px;
   border-radius: 4px;
   position: relative;
+  overflow: hidden;
 }
 
 .close {
@@ -115,26 +123,19 @@
   background-color: #000000;
   border: 1px solid #000000;
   border-radius: 4px;
+  color: #ffffff;
 }
 
-.search-results,
-.selected-users {
-  margin: 10px 0;
+.search-input {
+  position: absolute;
+  top: 25vh;
+  right: 25vw;
+  width: 50%;
+  padding: 20px;
+  box-sizing: border-box;
   background-color: #000000;
-  padding: 10px;
-  border-radius: 4px;
-}
-
-.search-result-item,
-.selected-user-item {
-  padding: 10px;
   border: 1px solid #000000;
-  margin: 5px 0;
-  cursor: pointer;
-  background-color: #000000;
-}
-
-.search-result-item.selected,
-.selected-user-item:hover {
-  background-color: #e0e0e0;
+  border-radius: 4px;
+  color: #ffffff;
+  z-index: 2;
 }

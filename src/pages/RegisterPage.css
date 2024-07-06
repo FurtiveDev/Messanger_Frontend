@@ -10,8 +10,8 @@
 }
   
   .register-page-title {
-    color: hsl(0, 0%, 0%);
-    font-size: 2rem; /* Размер шрифта */
-    text-align: center; /* Выравнивание по центру */
+    color: white;
+    font-size: 2rem;
+    text-align: center; 
   }
   

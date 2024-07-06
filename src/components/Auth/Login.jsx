@@ -25,7 +25,7 @@ const Login = () => {
       if (sessionCookie) {
         document.cookie = sessionCookie;
       }
-      window.location.href = '/';
+      window.location.href = '/home';
     } catch (error) {
       setError('Не удалось войти');
       console.error('Login failed', error);

@@ -3,13 +3,13 @@ import { fetchChats, createChat, searchProfiles, fetchSelfProfile } from '../../
 import './ChatList.css';
 import ChatWindow from './ChatWindow.jsx';
 
-// Import your chat icon
-import chatIcon from '/home/dev/Рабочий стол/Messanger/my-messenger/src/assets/chat.svg';
+import chatIcon from '../../assets/chat.svg';
 
 const ChatList = () => {
   const [chats, setChats] = useState([]);
   const [newChatName, setNewChatName] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [userSearchQuery, setUserSearchQuery] = useState('');
+  const [chatSearchQuery, setChatSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [isAddChatModalOpen, setIsAddChatModalOpen] = useState(false);
@@ -46,8 +46,8 @@ const ChatList = () => {
     }
   };
 
-  const handleSearch = async (query) => {
-    setSearchQuery(query);
+  const handleUserSearch = async (query) => {
+    setUserSearchQuery(query);
     if (query.trim() === '') {
       setSearchResults([]);
       return;
@@ -106,6 +106,10 @@ const ChatList = () => {
     setSelectedChatId(null);
   };
 
+  const filteredChats = chats.filter(chat =>
+    chat.name.toLowerCase().includes(chatSearchQuery.toLowerCase())
+  );
+
   return (
     <div className="chat-list-container">
       <button onClick={() => setIsAddChatModalOpen(true)} className="add-chat-button"></button>
@@ -124,8 +128,8 @@ const ChatList = () => {
             <input
               type="text"
               placeholder="Введите имя пользователя для поиска"
-              value={searchQuery}
-              onChange={(e) => handleSearch(e.target.value)}
+              value={userSearchQuery}
+              onChange={(e) => handleUserSearch(e.target.value)}
               className="user-input"
             />
             <div className="search-results">
@@ -175,11 +179,22 @@ const ChatList = () => {
           </div>
         </div>
       )}
+      
+      {/* Поиск чатов */}
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Поиск чатов..."
+          value={chatSearchQuery}
+          onChange={(e) => setChatSearchQuery(e.target.value)}
+          className="search-input"
+        />
+      </div>
 
       <div className="chat-list-wrapper">
         <div className="chat-list">
-          {chats.length > 0 ? (
-            chats.map(chat => (
+          {filteredChats.length > 0 ? (
+            filteredChats.map(chat => (
               <div key={chat.id} className="chat-item" onClick={() => openChatWindow(chat.id)}>
                 <div className="chat-info">
                   <img src={chatIcon} alt="Chat Icon" className="chat-icon" /> {/* Chat Icon */}

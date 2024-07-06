@@ -11,6 +11,7 @@ import ChatInfoModal from './ChatInfoModal';
 import sendIcon from '../../assets/send.svg';
 import deleteIcon from '../../assets/delete.svg';
 import editIcon from '../../assets/edit.svg';
+import settingsIcon from '../../assets/settings.svg'; // Импорт иконки настроек
 
 const CHAT_API_URL = 'http://localhost:8000/chats/';
 
@@ -20,15 +21,16 @@ const ChatWindow = ({ chatId }) => {
   const [editMessageId, setEditMessageId] = useState(null);
   const [editMessageText, setEditMessageText] = useState('');
   const [centrifuge, setCentrifuge] = useState(null);
-  const [chatInfo, setChatInfo] = useState(null); // состояние для хранения информации о чате
-  const [showModal, setShowModal] = useState(false); // состояние для отображения модального окна
+  const [chatInfo, setChatInfo] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   const fetchData = async () => {
     try {
       const response = await fetchChatHistory(chatId);
       if (response.data && response.data.chats) {
         setMessages(response.data.chats);
-        setChatInfo(response.data); // сохраняем информацию о чате
+        setChatInfo(response.data);
       } else {
         setMessages([]);
         setChatInfo(null);
@@ -79,7 +81,7 @@ const ChatWindow = ({ chatId }) => {
           if (ctx.data && ctx.data.type) {
             const { type, data } = ctx.data;
             if (type === 'send_message') {
-              fetchData();  // обновляем историю сообщений после получения нового сообщения
+              fetchData();
             } else if (type === 'edit_message') {
               setMessages(prevMessages => prevMessages.map(msg => msg.id === data.messageId ? { ...msg, text: data.text } : msg));
               updateChatInfo();
@@ -109,6 +111,21 @@ const ChatWindow = ({ chatId }) => {
     };
   }, [chatId]);
 
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && editMessageId !== null) {
+        setEditMessageId(null);
+        setEditMessageText('');
+      }
+    };
+
+    document.addEventListener('keydown', handleEsc);
+
+    return () => {
+      document.removeEventListener('keydown', handleEsc);
+    };
+  }, [editMessageId]);
+
   const handleSendMessage = async (e) => {
     e.preventDefault();
     try {
@@ -117,7 +134,7 @@ const ChatWindow = ({ chatId }) => {
       }
       await apiSendMessage(chatId, newMessage);
       setNewMessage('');
-      fetchData();  // обновление списка сообщений после отправки нового
+      fetchData();
     } catch (error) {
       console.error('Failed to send message', error);
     }
@@ -152,6 +169,14 @@ const ChatWindow = ({ chatId }) => {
   const startEditingMessage = (message) => {
     setEditMessageId(message.id);
     setEditMessageText(message.text);
+    showHintPopup();
+  };
+
+  const showHintPopup = () => {
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+    }, 3000);
   };
 
   const openModal = () => {
@@ -175,12 +200,11 @@ const ChatWindow = ({ chatId }) => {
 
   return (
     <div className="chat-window">
-      {/* Название группы и кнопка для отображения модального окна */}
       {chatInfo && (
         <div className="chat-info">
           <h3>{chatInfo.chat_name}</h3>
-          <button onClick={openModal}>
-            Chat Info
+          <button onClick={openModal} className="settings-button">
+            <img src={settingsIcon} alt="Settings" className='settings-icon'/>
           </button>
         </div>
       )}
@@ -188,22 +212,23 @@ const ChatWindow = ({ chatId }) => {
       <div className="message-list">
         {messages && [...messages].reverse().map(message => (
           <div className="message-item" key={message.id}>
-            <strong>{message.senderName}</strong>: {message.text}
-            <div className="message-item-icons">
-              {/* Иконка для удаления */}
-              <img
-                src={deleteIcon}
-                alt="Delete"
-                className="message-item-icon delete-icon"
-                onClick={() => handleDeleteMessage(message.id)}
-              />
-              {/* Иконка для редактирования */}
-              <img
-                src={editIcon}
-                alt="Edit"
-                className="message-item-icon edit-icon"
-                onClick={() => startEditingMessage(message)}
-              />
+            <strong>{message.senderName}</strong>
+            <div className="message-item-content">
+              {message.text}
+              <div className="message-item-icons">
+                <img
+                  src={deleteIcon}
+                  alt="Delete"
+                  className="message-item-icon delete-icon"
+                  onClick={() => handleDeleteMessage(message.id)}
+                />
+                <img
+                  src={editIcon}
+                  alt="Edit"
+                  className="message-item-icon edit-icon"
+                  onClick={() => startEditingMessage(message)}
+                />
+              </div>
             </div>
           </div>
         ))}
@@ -216,11 +241,8 @@ const ChatWindow = ({ chatId }) => {
             value={editMessageText}
             onChange={(e) => setEditMessageText(e.target.value)}
           />
-          <button type="submit">
+          <button type="submit" className='send-button'>
             <img src={sendIcon} alt="Send" className="send-icon" />
-          </button>
-          <button type="button" onClick={() => { setEditMessageId(null); setEditMessageText(''); }}>
-            Отменить
           </button>
         </form>
       )}
@@ -232,13 +254,12 @@ const ChatWindow = ({ chatId }) => {
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
           />
-          <button type="submit">
+          <button type="submit" className='send-button'>
             <img src={sendIcon} alt="Send" className="send-icon" />
           </button>
         </form>
       )}
 
-      {/* Модальное окно для отображения информации о чате */}
       {showModal && (
         <ChatInfoModal
           chatId={chatId}
@@ -248,6 +269,12 @@ const ChatWindow = ({ chatId }) => {
           }}
           onClose={closeModal}
         />
+      )}
+
+      {showPopup && (
+        <div className="popup show">
+          Нажмите ESC для отмены редактирования, Enter для сохранения
+        </div>
       )}
     </div>
   );

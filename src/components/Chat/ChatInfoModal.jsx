@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchChatMembers, deleteChatMember, addChatMember, searchProfiles } from '../../api/api';
+import './ChatInfoModal.css'; // Импорт CSS файла для стилей
 
 const ChatInfoModal = ({ chatId, chatInfo, onDeleteMember, onClose }) => {
   const [members, setMembers] = useState([]);
@@ -78,26 +79,24 @@ const ChatInfoModal = ({ chatId, chatInfo, onDeleteMember, onClose }) => {
     <div className="modal">
       <div className="modal-content">
         <span className="close" onClick={onClose}>&times;</span>
-        <h2>Chat Information</h2>
+        <h2>Информация о чате</h2>
         {chatInfo && (
           <div>
             <h3>{chatInfo.chat_name}</h3>
-            <p>Chat Description: {chatInfo.description}</p>
-            <h4>Members:</h4>
+            <h4>Участники:</h4>
             <ul>
               {members.map(member => (
                 <li key={member.username}>
                   {member.username} - {member.name}
-                  <button onClick={() => handleDeleteMember(member.username)}>Remove</button>
+                  <button className="remove-btn" onClick={() => handleDeleteMember(member.username)}>×</button>
                 </li>
               ))}
             </ul>
           </div>
         )}
-        <h4>Add Members:</h4>
         <input
           type="text"
-          placeholder="Search by username"
+          placeholder="Поиск по имени пользователя"
           value={searchQuery}
           onChange={(e) => handleSearch(e.target.value)}
         />
@@ -113,10 +112,10 @@ const ChatInfoModal = ({ chatId, chatInfo, onDeleteMember, onClose }) => {
               </div>
             ))
           ) : (
-            <div>No results</div>
+            <div>Ничего не найдено</div>
           )}
         </div>
-        <button onClick={handleAddMembers} disabled={selectedUsers.length === 0}>Add Members</button>
+        <button className="add-members-btn" onClick={handleAddMembers} disabled={selectedUsers.length === 0}>Добавить пользователя</button>
       </div>
     </div>
   );
