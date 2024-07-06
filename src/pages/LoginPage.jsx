@@ -5,7 +5,7 @@ import './LoginPage.css'; // Импортируем стили
 const LoginPage = () => {
   return (
     <div className="login-page-container">
-      <h1 className="login-page-title">Логин</h1>
+      <h1 className="login-page-title">Авторизоваться</h1>
       <Login />
     </div>
   );

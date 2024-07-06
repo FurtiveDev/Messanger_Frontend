@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import './ChatWindow.css';
 import {
   fetchChatHistory,
   sendMessage as apiSendMessage,
   deleteMessage as apiDeleteMessage,
   updateMessage as apiUpdateMessage,
-  fetchChatMembers,
 } from '../../api/api';
 import { Centrifuge } from 'centrifuge';
-import ChatInfoModal from './ChatInfoModal'; // Adjust import path as per your file structure
+import ChatInfoModal from './ChatInfoModal';
+import sendIcon from '../../assets/send.svg';
+import deleteIcon from '../../assets/delete.svg';
+import editIcon from '../../assets/edit.svg';
 
 const CHAT_API_URL = 'http://localhost:8000/chats/';
 
@@ -20,24 +23,24 @@ const ChatWindow = ({ chatId }) => {
   const [chatInfo, setChatInfo] = useState(null); // состояние для хранения информации о чате
   const [showModal, setShowModal] = useState(false); // состояние для отображения модального окна
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetchChatHistory(chatId);
-        if (response.data && response.data.chats) {
-          setMessages(response.data.chats);
-          setChatInfo(response.data); // сохраняем информацию о чате
-        } else {
-          setMessages([]);
-          setChatInfo(null);
-        }
-      } catch (error) {
-        console.error('Failed to fetch chat history', error);
+  const fetchData = async () => {
+    try {
+      const response = await fetchChatHistory(chatId);
+      if (response.data && response.data.chats) {
+        setMessages(response.data.chats);
+        setChatInfo(response.data); // сохраняем информацию о чате
+      } else {
         setMessages([]);
         setChatInfo(null);
       }
-    };
+    } catch (error) {
+      console.error('Failed to fetch chat history', error);
+      setMessages([]);
+      setChatInfo(null);
+    }
+  };
 
+  useEffect(() => {
     if (chatId) {
       fetchData();
     }
@@ -76,10 +79,9 @@ const ChatWindow = ({ chatId }) => {
           if (ctx.data && ctx.data.type) {
             const { type, data } = ctx.data;
             if (type === 'send_message') {
-              setMessages(prevMessages => [...prevMessages, data]);
-              updateChatInfo();
+              fetchData();  // обновляем историю сообщений после получения нового сообщения
             } else if (type === 'edit_message') {
-              setMessages(prevMessages => prevMessages.map(msg => msg.id === data.id ? { ...msg, text: data.text } : msg));
+              setMessages(prevMessages => prevMessages.map(msg => msg.id === data.messageId ? { ...msg, text: data.text } : msg));
               updateChatInfo();
             } else if (type === 'delete_message') {
               setMessages(prevMessages => prevMessages.filter(msg => msg.id !== data.messageId));
@@ -115,6 +117,7 @@ const ChatWindow = ({ chatId }) => {
       }
       await apiSendMessage(chatId, newMessage);
       setNewMessage('');
+      fetchData();  // обновление списка сообщений после отправки нового
     } catch (error) {
       console.error('Failed to send message', error);
     }
@@ -171,10 +174,10 @@ const ChatWindow = ({ chatId }) => {
   };
 
   return (
-    <div>
+    <div className="chat-window">
       {/* Название группы и кнопка для отображения модального окна */}
       {chatInfo && (
-        <div>
+        <div className="chat-info">
           <h3>{chatInfo.chat_name}</h3>
           <button onClick={openModal}>
             Chat Info
@@ -182,34 +185,56 @@ const ChatWindow = ({ chatId }) => {
         </div>
       )}
 
-      <div>
-        {messages && messages.map(message => (
-          <div key={message.id}>
-            {message.text}
-            <button onClick={() => handleDeleteMessage(message.id)}>Delete</button>
-            <button onClick={() => startEditingMessage(message)}>Edit</button>
+      <div className="message-list">
+        {messages && [...messages].reverse().map(message => (
+          <div className="message-item" key={message.id}>
+            <strong>{message.senderName}</strong>: {message.text}
+            <div className="message-item-icons">
+              {/* Иконка для удаления */}
+              <img
+                src={deleteIcon}
+                alt="Delete"
+                className="message-item-icon delete-icon"
+                onClick={() => handleDeleteMessage(message.id)}
+              />
+              {/* Иконка для редактирования */}
+              <img
+                src={editIcon}
+                alt="Edit"
+                className="message-item-icon edit-icon"
+                onClick={() => startEditingMessage(message)}
+              />
+            </div>
           </div>
         ))}
       </div>
+
       {editMessageId !== null && (
-        <form onSubmit={handleEditMessage}>
+        <form className="message-item" onSubmit={handleEditMessage}>
           <input
             type="text"
             value={editMessageText}
             onChange={(e) => setEditMessageText(e.target.value)}
           />
-          <button type="submit">Update</button>
-          <button type="button" onClick={() => { setEditMessageId(null); setEditMessageText(''); }}>Cancel</button>
+          <button type="submit">
+            <img src={sendIcon} alt="Send" className="send-icon" />
+          </button>
+          <button type="button" onClick={() => { setEditMessageId(null); setEditMessageText(''); }}>
+            Отменить
+          </button>
         </form>
       )}
+
       {editMessageId === null && (
-        <form onSubmit={handleSendMessage}>
+        <form className="message-item" onSubmit={handleSendMessage}>
           <input
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
           />
-          <button type="submit">Send</button>
+          <button type="submit">
+            <img src={sendIcon} alt="Send" className="send-icon" />
+          </button>
         </form>
       )}
 

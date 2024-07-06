@@ -5,7 +5,7 @@ import './RegisterPage.css';
 const RegisterPage = () => {
   return (
     <div className="register-page-container">
-      <h1 className="register-page-title">Регистрация</h1>
+      <h1 className="register-page-title">Зарегистрироваться</h1>
       <Register />
     </div>
   );
