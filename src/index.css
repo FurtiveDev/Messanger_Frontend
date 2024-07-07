@@ -17,7 +17,7 @@
   0% {
     background-position: center bottom; 
   }
-  50% {
+  40% {
     background-position: center top;
   }
   100% {
@@ -26,11 +26,12 @@
 }
 
 body {
-  background-image: url('/src/assets/background.jpg'); /* Убедитесь, что путь корректен */
+  background-image: url('/src/assets/background.jpg');
+  overflow: hidden;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  animation: scrollBackground 10s infinite;
+  animation: scrollBackground 13s infinite;
 }
 
 a {

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { register } from '../../api/api';
 import './Register.css';
@@ -10,17 +10,63 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const navigate = useNavigate();
   const { isAuthenticated, setIsAuthenticated } = useAuth();
   const [authState, setAuthState] = useState(isAuthenticated);
+
   useEffect(() => {
     setAuthState(isAuthenticated);
   }, [isAuthenticated]);
 
+  const handleNameChange = (e) => {
+    const value = e.target.value;
+    setName(value);
+    if (value.length < 5) {
+      setNameError('Имя должно быть не менее 5 символов');
+    } else {
+      setNameError('');
+    }
+  };
+
+  const handleUsernameChange = (e) => {
+    const value = e.target.value;
+    setUsername(value);
+    if (value.length < 5) {
+      setUsernameError('Имя пользователя должно быть не менее 5 символов');
+    } else {
+      setUsernameError('');
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+    if (value.length < 8) {
+      setPasswordError('Пароль должен быть не менее 8 символов');
+    } else {
+      setPasswordError('');
+    }
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const value = e.target.value;
+    setConfirmPassword(value);
+    if (value !== password) {
+      setConfirmPasswordError('Пароли не совпадают');
+    } else {
+      setConfirmPasswordError('');
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      setError('Пароли не совпадают');
+
+    if (password !== confirmPassword || username.length < 5 || password.length < 8 || name.length < 5) {
+      setError('Проверьте корректность введенных данных');
       return;
     }
 
@@ -48,30 +94,41 @@ const Register = () => {
           type="text" 
           placeholder="Имя" 
           value={name} 
-          onChange={(e) => setName(e.target.value)} 
+          onChange={handleNameChange} 
           className="register-input"
+          minLength="5"
+          required
         />
+        {nameError && <p className="error-message">{nameError}</p>}
         <input 
           type="text" 
           placeholder="Никнейм" 
           value={username} 
-          onChange={(e) => setUsername(e.target.value)} 
+          onChange={handleUsernameChange} 
           className="register-input"
+          minLength="5"
+          required
         />
+        {usernameError && <p className="error-message">{usernameError}</p>}
         <input 
           type="password" 
           placeholder="Пароль" 
           value={password} 
-          onChange={(e) => setPassword(e.target.value)} 
+          onChange={handlePasswordChange} 
           className="register-input"
+          minLength="8"
+          required
         />
+        {passwordError && <p className="error-message">{passwordError}</p>}
         <input 
           type="password" 
           placeholder="Подтвердите пароль" 
           value={confirmPassword} 
-          onChange={(e) => setConfirmPassword(e.target.value)} 
+          onChange={handleConfirmPasswordChange} 
           className="register-input"
+          required
         />
+        {confirmPasswordError && <p className="error-message">{confirmPasswordError}</p>}
         <button type="submit" className="register-button">Зарегистрироваться</button>
       </form>
     </div>

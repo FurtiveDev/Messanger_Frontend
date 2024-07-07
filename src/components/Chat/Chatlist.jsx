@@ -23,7 +23,7 @@ const ChatList = () => {
 
     const interval = setInterval(() => {
       fetchData();
-    }, 1000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
@@ -197,7 +197,7 @@ const ChatList = () => {
             filteredChats.map(chat => (
               <div key={chat.id} className="chat-item" onClick={() => openChatWindow(chat.id)}>
                 <div className="chat-info">
-                  <img src={chatIcon} alt="Chat Icon" className="chat-icon" /> {/* Chat Icon */}
+                  <img src={chatIcon} alt="Chat Icon" className="chat-icon" /> 
                   <div className="chat-name">{chat.name}</div>
                   <div className="last-message">{chat.lastMessage}</div>
                   <div className="chat-meta">

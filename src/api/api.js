@@ -7,7 +7,7 @@ const toFormData = (data) => {
 };
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000',
+  baseURL: 'https://ggs-messenger.onrender.com/',
   withCredentials: true,
 });
 
@@ -19,7 +19,6 @@ api.interceptors.request.use(config => {
   return config;
 });
 
-// Auth API
 export const register = (data) => api.post('/auth/register', toFormData(data), {
   headers: {
     'Content-Type': 'multipart/form-data',

@@ -7,6 +7,8 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const { isAuthenticated, setIsAuthenticated } = useAuth();
   const [authState, setAuthState] = useState(isAuthenticated);
 
@@ -14,8 +16,33 @@ const Login = () => {
     setAuthState(isAuthenticated);
   }, [isAuthenticated]);
 
+  const handleUsernameChange = (e) => {
+    const value = e.target.value;
+    setUsername(value);
+    if (value.length < 5) {
+      setUsernameError('Имя пользователя должно быть не менее 5 символов');
+    } else {
+      setUsernameError('');
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+    if (value.length < 8) {
+      setPasswordError('Пароль должен быть не менее 8 символов');
+    } else {
+      setPasswordError('');
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (username.length < 5 || password.length < 8) {
+      setError('Проверьте корректность введенных данных');
+      return;
+    }
 
     try {
       const response = await login({ username, password });
@@ -40,16 +67,18 @@ const Login = () => {
           type="text" 
           placeholder="Никнейм" 
           value={username} 
-          onChange={(e) => setUsername(e.target.value)} 
+          onChange={handleUsernameChange} 
           className="login-input"
         />
+        {usernameError && <p className="error-message">{usernameError}</p>}
         <input 
           type="password" 
           placeholder="Пароль" 
           value={password} 
-          onChange={(e) => setPassword(e.target.value)} 
+          onChange={handlePasswordChange} 
           className="login-input"
         />
+        {passwordError && <p className="error-message">{passwordError}</p>}
         <button type="submit" className="login-button">Войти</button>
       </form>
     </div>

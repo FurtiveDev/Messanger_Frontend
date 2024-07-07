@@ -5,7 +5,8 @@ import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
-import { AuthProvider } from '/home/dev/Рабочий стол/Messanger/my-messenger/src/components/Auth/AuthContext.jsx';
+import { AuthProvider } from './components/Auth/AuthContext.jsx';
+
 
 const App = () => {
   return (
