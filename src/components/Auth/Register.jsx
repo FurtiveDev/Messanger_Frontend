@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { register } from '../../api/api';
 import './Register.css';
-import { useAuth } from '/home/dev/Рабочий стол/Messanger/my-messenger/src/components/Auth/AuthContext.jsx';
+import { useAuth } from './../Auth/AuthContext.jsx';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -79,7 +79,7 @@ const Register = () => {
         document.cookie = sessionCookie;
         navigate('/profile');
       }
-      window.location.href = '/';
+      window.location.href = '/home';
     } catch (error) {
       setError('Не удалось зарегистрироваться');
       console.error('Не удалось зарегистрироваться', error.response ? error.response.data : error);

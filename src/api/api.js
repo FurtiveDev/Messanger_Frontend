@@ -7,7 +7,7 @@ const toFormData = (data) => {
 };
 
 const api = axios.create({
-  baseURL: 'https://ggs-messenger.onrender.com/',
+  baseURL: 'http://localhost:8000',/*baseURL: 'https://ggs-messenger.onrender.com/',*/
   withCredentials: true,
 });
 

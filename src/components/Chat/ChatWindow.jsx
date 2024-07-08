@@ -13,8 +13,9 @@ import deleteIcon from '../../assets/delete.svg';
 import editIcon from '../../assets/edit.svg';
 import settingsIcon from '../../assets/settings.svg';
 
-const CHAT_API_URL = 'https://ggs-messenger.onrender.com/chats/';
-
+const CHAT_API_URL = 'http://localhost:8000/chats/';
+/*const CHAT_API_URL = 'https://ggs-messenger.onrender.com/chats/';*/
+  
 const ChatWindow = ({ chatId }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');

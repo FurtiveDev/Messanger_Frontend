@@ -15,6 +15,7 @@
 }
 
 .message-item {
+  margin-top: 10px;
   display: flex;
   align-items: flex-start; /* выравнивание по верхнему краю */
   margin-bottom: 10px;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { login } from '../../api/api';
 import './Login.css';
-import { useAuth } from '/home/dev/Рабочий стол/Messanger/my-messenger/src/components/Auth/AuthContext.jsx';
+import { useAuth } from './../Auth/AuthContext.jsx';
 
 const Login = () => {
   const [username, setUsername] = useState('');

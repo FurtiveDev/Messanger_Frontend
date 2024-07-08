@@ -7,7 +7,6 @@ import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import { AuthProvider } from './components/Auth/AuthContext.jsx';
 
-
 const App = () => {
   return (
     <AuthProvider>
